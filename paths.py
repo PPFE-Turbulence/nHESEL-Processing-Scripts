@@ -14,7 +14,6 @@ processedPath = "/home/s194112/HESEL_processed"
 logPath = "/home/s194112/HESEL_logs"
 
 # (HESEL) Source files
-#sourcePath = "/home/s194112/HESEL_source"
 sourcePath = "/home/s194112"
 
 # Scripts path
