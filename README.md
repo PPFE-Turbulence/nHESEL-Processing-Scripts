@@ -1,5 +1,7 @@
 [IN DANISH]
+
 Opsummering af scripts mappe i alfabetisk rækkefølge:
+
 Autoplots: Genererer plots over de tz-gennemsnitslige profiler for dataen der behandles.
 
 axialDistances: Script der fungerer som en R(s) funktion, og tillader at få den radialle position på et given sted på diverteren, relativt til strike-line.
