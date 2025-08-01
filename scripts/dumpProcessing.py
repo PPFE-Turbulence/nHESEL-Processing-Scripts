@@ -163,7 +163,7 @@ class dumpProcessing:
         ## First check if the data is present
         fileNamedx = f"{paths.processedPath}/{self.dataName}/gridValsdx.npy"
         fileNamedz = f"{paths.processedPath}/{self.dataName}/gridValsdz.npy"
-        if (recalculate = True) or ((os.path.isfile(fileNamedx) != True) or (os.path.isfile(fileNamedz) != True)):
+        if (recalculate == True) or ((os.path.isfile(fileNamedx) != True) or (os.path.isfile(fileNamedz) != True)):
             # If it isn't, then load from RAW data
             # First get the dx and dz variable
             dx = collect(varname="dx", xind=[0,0], xguards = False, yguards = False, info=False, path=f"{paths.dataPath}/{self.dataName}")
@@ -190,7 +190,7 @@ class dumpProcessing:
         """
         ## First check if the data is present
         fileName = f"{paths.processedPath}/{self.dataName}/times.npy"
-        if (recalculate = True) or (os.path.isfile(fileName) != True):
+        if (recalculate == True) or (os.path.isfile(fileName) != True):
             # If it isn't, then load from RAW data
             # First get the t_array with all the times
             t_array = np.asarray(collect(varname="t_array", xguards = False, yguards = False, info=False, path=f"{paths.dataPath}/{self.dataName}"))
@@ -218,7 +218,7 @@ class dumpProcessing:
         ## First check if the data is present IN THE CORRECT FORMAT
         fileNamexgrid = f"{paths.processedPath}/{self.dataName}/xgridsScrapeoff{scrapeoff}.npy"
         fileNamezgrid = f"{paths.processedPath}/{self.dataName}/zgridsScrapeoff{scrapeoff}.npy"
-        if (recalculate = True) or ((os.path.isfile(fileNamexgrid) != True) or (os.path.isfile(fileNamezgrid) != True)):
+        if (recalculate == True) or ((os.path.isfile(fileNamexgrid) != True) or (os.path.isfile(fileNamezgrid) != True)):
             # If it isn't, then load from RAW data
             # First get the size of the distance between points, in both directions
             dx, dz = self.get_gridvals()
@@ -263,7 +263,7 @@ class dumpProcessing:
         ## First check if the data is present IN THE CORRECT FORMAT
         fileNamexLCFS = f"{paths.processedPath}/{self.dataName}/x_lcfs.npy"
         fileNamexLCFSPOS = f"{paths.processedPath}/{self.dataName}/x_lcfsPOS.npy"
-        if (recalculate = True) or ((os.path.isfile(fileNamexLCFS) != True) or (os.path.isfile(fileNamexLCFSPOS) != True)):
+        if (recalculate == True) or ((os.path.isfile(fileNamexLCFS) != True) or (os.path.isfile(fileNamexLCFSPOS) != True)):
             # If it isn't, then load from RAW data
             # First get the relative position of the lcfs in the system
             x_lcfs = self.get_option_value("x_lcfs")
@@ -291,7 +291,7 @@ class dumpProcessing:
         ## First check if the variable had already been processed
         # Also remember to check for includeLCFS
         fileName = f"{paths.processedPath}/{self.dataName}/nLCFS_includeLCFS{includeLCFS}.npy"
-        if (recalculate = True) or (os.path.isfile(fileName) != True):
+        if (recalculate == True) or (os.path.isfile(fileName) != True):
             # If it hasn't, process it
             # Get the relative position of the LCFS
             x_lcfsRel = self.get_option_value("x_lcfs")
@@ -404,7 +404,7 @@ class dumpProcessing:
 
         # Check if data already exists/has been extracted
         fileName = f"{paths.processedPath}/{self.dataName}/option_value_{normNames[varNameLower]}.npy"
-        if (recalculate = True) or (os.path.isfile(fileName) != True):
+        if (recalculate == True) or (os.path.isfile(fileName) != True):
             #print("Extracting value")
             # In case it hasn't, get data from files
             val = collect(varname=normNames[varNameLower], xguards = False, yguards = False, info=False, path=f"{paths.dataPath}/{self.dataName}")
