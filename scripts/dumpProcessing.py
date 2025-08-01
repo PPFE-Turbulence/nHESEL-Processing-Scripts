@@ -154,7 +154,7 @@ class dumpProcessing:
         if returnData == True:
             return datas
 
-    def get_gridvals(self):
+    def get_gridvals(self, recalculate = False):
         """
         Method used to get the denormalised (2D) xz-grid spacing from the given data folder.
 
@@ -163,7 +163,7 @@ class dumpProcessing:
         ## First check if the data is present
         fileNamedx = f"{paths.processedPath}/{self.dataName}/gridValsdx.npy"
         fileNamedz = f"{paths.processedPath}/{self.dataName}/gridValsdz.npy"
-        if (os.path.isfile(fileNamedx) != True) or (os.path.isfile(fileNamedz) != True):
+        if (recalculate = True) or ((os.path.isfile(fileNamedx) != True) or (os.path.isfile(fileNamedz) != True)):
             # If it isn't, then load from RAW data
             # First get the dx and dz variable
             dx = collect(varname="dx", xind=[0,0], xguards = False, yguards = False, info=False, path=f"{paths.dataPath}/{self.dataName}")
@@ -184,13 +184,13 @@ class dumpProcessing:
 
         return dx, dz
         
-    def get_times(self):
+    def get_times(self, recalculate = False):
         """
         Returns an array with the denormalised times for all iterations along the t-axis in the given dataset.
         """
         ## First check if the data is present
         fileName = f"{paths.processedPath}/{self.dataName}/times.npy"
-        if os.path.isfile(fileName) != True:
+        if (recalculate = True) or (os.path.isfile(fileName) != True):
             # If it isn't, then load from RAW data
             # First get the t_array with all the times
             t_array = np.asarray(collect(varname="t_array", xguards = False, yguards = False, info=False, path=f"{paths.dataPath}/{self.dataName}"))
@@ -207,7 +207,7 @@ class dumpProcessing:
         
         return t_array
 
-    def get_grids(self, scrapeoff = False):
+    def get_grids(self, scrapeoff = False, recalculate = False):
         """
         Method used to get the xz-grid from the given data folder.
 
@@ -218,7 +218,7 @@ class dumpProcessing:
         ## First check if the data is present IN THE CORRECT FORMAT
         fileNamexgrid = f"{paths.processedPath}/{self.dataName}/xgridsScrapeoff{scrapeoff}.npy"
         fileNamezgrid = f"{paths.processedPath}/{self.dataName}/zgridsScrapeoff{scrapeoff}.npy"
-        if (os.path.isfile(fileNamexgrid) != True) or (os.path.isfile(fileNamezgrid) != True):
+        if (recalculate = True) or ((os.path.isfile(fileNamexgrid) != True) or (os.path.isfile(fileNamezgrid) != True)):
             # If it isn't, then load from RAW data
             # First get the size of the distance between points, in both directions
             dx, dz = self.get_gridvals()
@@ -254,7 +254,7 @@ class dumpProcessing:
 
         return xgrid, zgrid
 
-    def get_lcfs(self):
+    def get_lcfs(self, recalculate = False):
         """
         Method used to get the LCFS relative position in the system, as well as the actual position, relative to the inner part of the system.
 
@@ -263,7 +263,7 @@ class dumpProcessing:
         ## First check if the data is present IN THE CORRECT FORMAT
         fileNamexLCFS = f"{paths.processedPath}/{self.dataName}/x_lcfs.npy"
         fileNamexLCFSPOS = f"{paths.processedPath}/{self.dataName}/x_lcfsPOS.npy"
-        if (os.path.isfile(fileNamexLCFS) != True) or (os.path.isfile(fileNamexLCFSPOS) != True):
+        if (recalculate = True) or ((os.path.isfile(fileNamexLCFS) != True) or (os.path.isfile(fileNamexLCFSPOS) != True)):
             # If it isn't, then load from RAW data
             # First get the relative position of the lcfs in the system
             x_lcfs = self.get_option_value("x_lcfs")
@@ -283,7 +283,7 @@ class dumpProcessing:
         
         return x_lcfs, x_lcfsPos
 
-    def get_lcfs_index(self, includeLCFS = False):
+    def get_lcfs_index(self, includeLCFS = False, recalculate = False):
         """
         Method used to return the lowest index corresponding to the LCFS (for inclusivity) in the simulation grid, along the x-direction.
 
@@ -291,7 +291,7 @@ class dumpProcessing:
         ## First check if the variable had already been processed
         # Also remember to check for includeLCFS
         fileName = f"{paths.processedPath}/{self.dataName}/nLCFS_includeLCFS{includeLCFS}.npy"
-        if os.path.isfile(fileName) != True:
+        if (recalculate = True) or (os.path.isfile(fileName) != True):
             # If it hasn't, process it
             # Get the relative position of the LCFS
             x_lcfsRel = self.get_option_value("x_lcfs")
@@ -320,7 +320,7 @@ class dumpProcessing:
 
         return nLCFS
 
-    def get_wall(self, scrapeoff = False):
+    def get_wall(self, scrapeoff = False, recalculate = False):
         """
         Method used to get the wall relative position in the system, as well as the actual position, relative to the inner part of the system.
 
@@ -332,7 +332,7 @@ class dumpProcessing:
         # Also remember to check for scrapeoff
         fileNamex = f"{paths.processedPath}/{self.dataName}/x_wall_scrapeoff{scrapeoff}.npy"
         fileNamexPos = f"{paths.processedPath}/{self.dataName}/x_wallPos_scrapeoff{scrapeoff}.npy"
-        if (os.path.isfile(fileNamex) != True) or (os.path.isfile(fileNamexPos) != True):
+        if (recalculate == True) or ((os.path.isfile(fileNamex) != True) or (os.path.isfile(fileNamexPos) != True)):
             # If it hasn't been processed, load from RAW data
             # First get the relative position of the 'wall'
             if scrapeoff == False:
@@ -358,32 +358,34 @@ class dumpProcessing:
         
         return x_wall, x_wallPos
 
-    def preprocess_data(self):
+    def preprocess_data(self, recalculate = True):
         """
         Method calling the different methods for getting the wall position, lcfs index, grids, time, etc. Everything except the actual data extraction.
 
         This method can be called to ensure everything gets processed from the RAW data into the processed data folder, such that the RAW data is no longer nescessary.
 
+        Note, this can also wipe the already present data as long as recalculate is set to true. Useful for when a new dataset is present.
+
         """
         print(f"Pre-processing dumpProcessing data for folder: {self.dataName}")
-        self.get_gridvals()
-        self.get_times()
-        self.get_grids(scrapeoff = False)
-        self.get_grids(scrapeoff = True)
-        self.get_lcfs()
-        self.get_lcfs_index(includeLCFS = False)
-        self.get_lcfs_index(includeLCFS = True)
-        self.get_wall(scrapeoff = False)
-        self.get_wall(scrapeoff = True)
+        self.get_gridvals(recalculate = recalculate)
+        self.get_times(recalculate = recalculate)
+        self.get_grids(scrapeoff = False, recalculate = recalculate)
+        self.get_grids(scrapeoff = True, recalculate = recalculate)
+        self.get_lcfs(recalculate = recalculate)
+        self.get_lcfs_index(includeLCFS = False, recalculate = recalculate)
+        self.get_lcfs_index(includeLCFS = True ,recalculate = recalculate)
+        self.get_wall(scrapeoff = False, recalculate = recalculate)
+        self.get_wall(scrapeoff = True, recalculate = recalculate)
         optionVals = {'n':'n0', 'ti':'Te0', 'te':'Te0', 'phi':'Te0', 'b':'B0', "t_array":"oci", "dx":"rhos", "dz":"rhos", "nx":"nx", "ny":"ny", "nz":"nz", "x_lcfs":"x_lcfs","x_wall":"x_wall", "rmajor":"Rmajor","rminor":"Rminor","q":"q"}
         for key in optionVals.keys():
-            self.get_option_value(key)
+            self.get_option_value(key, recalculate = recalculate)
         print("Finished Pre-Processing")
 
         return 0
         
         
-    def get_option_value(self, varName):
+    def get_option_value(self, varName, recalculate = False):
         """
         Function used to extract the corresponding denormalisation variable from the BOUT settings, read directly from the dump files, used *for normalization* purposes.
 
@@ -402,7 +404,7 @@ class dumpProcessing:
 
         # Check if data already exists/has been extracted
         fileName = f"{paths.processedPath}/{self.dataName}/option_value_{normNames[varNameLower]}.npy"
-        if os.path.isfile(fileName) != True:
+        if (recalculate = True) or (os.path.isfile(fileName) != True):
             #print("Extracting value")
             # In case it hasn't, get data from files
             val = collect(varname=normNames[varNameLower], xguards = False, yguards = False, info=False, path=f"{paths.dataPath}/{self.dataName}")
