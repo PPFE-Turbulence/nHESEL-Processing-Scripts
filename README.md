@@ -1,3 +1,5 @@
+For inquiries: johannes.aaen@hotmail.com
+
 [IN DANISH]
 
 Opsummering af scripts mappe i alfabetisk rækkefølge:
