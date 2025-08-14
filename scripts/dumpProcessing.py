@@ -9,7 +9,7 @@ import time
 from math import floor, ceil
 
 # Import paths file
-pathPath = "/home/s194112/"
+pathPath = os.environ["HOME"]
 sys.path.append(pathPath)
 import paths
 
@@ -438,20 +438,20 @@ class dumpProcessing:
         file = open(f"{paths.dataPath}/{self.dataName}/BOUT.inp","r")
 
         # Write to temporary file (need section header for first variables)
-        tempFile = open("/home/s194112/temp.inp","w+")
+        tempFile = open(f"{pathPath}/temp.inp","w+")
         tempFile.write("[diverse]\n")
         for line in file:
             tempFile.write(line)
         tempFile.close()
 
         # Read temporary file using configparser
-        tempFile = open("/home/s194112/temp.inp")
+        tempFile = open(f"{pathPath}/temp.inp")
         parser = ConfigParser()
         parser.read_file(tempFile)
 
         # Then delete the temporary file
         tempFile.close()
-        os.remove("/home/s194112/temp.inp")
+        os.remove(f"{pathPath}/temp.inp")
 
         # We are now ready to parse the config for variables
         # First get the names using keys from the predefined lists
@@ -537,7 +537,7 @@ class dumpProcessing:
         """
         # First write a temporary script using this object, utiliting the processing template
         template = open(f"{paths.templatePath}/TEMPLATE_processing.py","r")
-        tempFile = open("/home/s194112/tempProcessingFile.py","w+")
+        tempFile = open(f"{pathPath}/tempProcessingFile.py","w+")
         for line in template:
             line = line.replace("NAMEDATA",f"{self.dataName}")
             line = line.replace("WRITEOVER",f"{overwrite}")
@@ -545,10 +545,10 @@ class dumpProcessing:
         tempFile.close()
 
         # Change the file-permissions 
-        os.chmod("/home/s194112/tempProcessingFile.py", 0o777)
+        os.chmod(f"{pathPath}/tempProcessingFile.py", 0o777)
         
         # Then define a bsub object using the written temporary file
-        job = bsubmissions(jobName=f"Extract_{self.dataName}",scriptName="/home/s194112/tempProcessingFile.py")
+        job = bsubmissions(jobName=f"Extract_{self.dataName}",scriptName=f"{pathPath}/tempProcessingFile.py")
         job.create_and_submit()
 
         # Then delete the temporary file

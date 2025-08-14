@@ -1,35 +1,38 @@
 # Contains *absolute* paths for all relevant folders, such as input files, raw data folder, source folders etc. for use in scripts
 # Keeping all paths in one file allows for easy updating in all scripts
 
+import os
+pathPath = f"{os.environ['HOME']}/{'nHESEL-Processing-Scripts'}"
+
 # Input files
-inputPath = "/home/s194112/HESEL_input"
+inputPath = f"{pathPath}/HESEL_input"
 
 # Raw data
-dataPath = "/home/s194112/HESEL_data"
+dataPath = f"{pathPath}/HESEL_data"
 
 # Post-processed data
-processedPath = "/home/s194112/HESEL_processed"
+processedPath = f"{pathPath}/HESEL_processed"
 
 # Logs
-logPath = "/home/s194112/HESEL_logs"
+logPath = f"{pathPath}/HESEL_logs"
 
 # (HESEL) Source files
-sourcePath = "/home/s194112"
+sourcePath = pathPath
 
 # Scripts path
-scriptPath = '/home/s194112/scripts'
+scriptPath = f"{pathPath}/scripts"
 
 # Job Scripts path
-jobScriptPath = '/home/s194112/jobScripts'
+jobScriptPath = f"{pathPath}/jobScripts"
 
 # Template scripts path
-templatePath = '/home/s194112/templates'
+templatePath = f"{pathPath}/templates"
 
 # Temp files folder
-tempPath = '/home/s194112/tempFiles'
+tempPath = f"{pathPath}/tempFiles"
 
 # Post-Processed data folder
-postPath = "/home/s194112/postProcessed"
+postPath = f"{pathPath}/postProcessed"
 
 # Post-Processed figurer data folder
-postFigsPath = "/home/s194112/postProcessed/Figurer"
+postFigsPath = f"{pathPath}/postProcessed/Figurer"

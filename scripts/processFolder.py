@@ -4,7 +4,7 @@ import datetime
 import os
 
 # Import paths file
-pathPath = "/home/s194112"
+pathPath = os.environ["HOME"]
 sys.path.append(pathPath)
 import paths
 

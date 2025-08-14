@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import warnings
 
 # Import paths file
-pathPath = "/home/s194112"
+pathPath = os.environ["HOME"]
 sys.path.append(pathPath)
 import paths
 

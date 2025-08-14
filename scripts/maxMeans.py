@@ -7,7 +7,7 @@ import warnings
 
 ### Locals imports
 # Import paths file
-pathPath = "/home/s194112/paths"
+pathPath = f"{os.environ['HOME']}/paths"
 sys.path.append(pathPath)
 import paths
 

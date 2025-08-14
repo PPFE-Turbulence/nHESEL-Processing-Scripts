@@ -5,7 +5,7 @@ import numpy as np
 from boutdata import collect
 
 # Import paths file
-pathPath = "/home/s194112"
+pathPath = os.environ["HOME"]
 sys.path.append(pathPath)
 import paths
 

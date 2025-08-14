@@ -36,7 +36,7 @@ def create_processed_folder(inputName, overwrite = False):
     yy = today.strftime("%y")
     
     # Import paths file
-    pathPath = "/home/s194112"
+    pathPath = os.environ['HOME']
     sys.path.append(pathPath)
     import paths
     
