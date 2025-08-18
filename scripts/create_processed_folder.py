@@ -36,7 +36,7 @@ def create_processed_folder(inputName, overwrite = False):
     yy = today.strftime("%y")
     
     # Import paths file
-    pathPath = os.environ['HOME']
+    pathPath = f"{os.environ['HOME']}/{'nHESEL-Processing-Scripts'}"
     sys.path.append(pathPath)
     import paths
     

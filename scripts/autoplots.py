@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Import paths file
-pathPath = os.environ["HOME"]
+pathPath = f"{os.environ['HOME']}/{'nHESEL-Processing-Scripts'}"
 sys.path.append(pathPath)
 import paths
 

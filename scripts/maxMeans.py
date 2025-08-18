@@ -7,7 +7,7 @@ import warnings
 
 ### Locals imports
 # Import paths file
-pathPath = f"{os.environ['HOME']}/paths"
+pathPath = f"{os.environ['HOME']}/{'nHESEL-Processing-Scripts'}/paths"
 sys.path.append(pathPath)
 import paths
 

@@ -5,7 +5,7 @@ import warnings
 import time
 
 # Import paths file
-pathPath = os.environ['HOME']
+pathPath = f"{os.environ['HOME']}/{'nHESEL-Processing-Scripts'}"
 sys.path.append(pathPath)
 import paths
 
@@ -27,7 +27,7 @@ class bsubmissions:
     """
     def __init__(self, jobName, scriptName, numNodes = 1, tasksPerNode = 1, cpusPerTask=1, memPerCPU = False, partition = "workq", wallTime = "48:00:00"): # 48 hour timelimit on the workq
         # Set variables
-        self.homeFolder = os.environ['HOME'] # Set to home directory
+        self.homeFolder = f"{os.environ['HOME']}/{'nHESEL-Processing-Scripts'}" # Set to home directory
         self.processesAsked = int(numNodes*tasksPerNode)
         self.jobName = jobName
         self.nodesAsked = numNodes
