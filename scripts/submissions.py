@@ -130,7 +130,7 @@ cd {self.homeFolder}"""
         
         # Then, closing the string in case we need to save it, and save it (overwriting the file, '>' is for overwriting, '>>' is for appending, in bash)
         if writeJobId == True:
-            callStr += f" && echo -n $job_id > ~/lastId.txt"
+            callStr += f" && echo -n $job_id > {paths.sourcePath}/lastId.txt"
 
         # Finally, actually execute the job
         os.system(callStr)

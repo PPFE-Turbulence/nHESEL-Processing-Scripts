@@ -17,7 +17,7 @@ processedPath = f"{pathPath}/HESEL_processed"
 logPath = f"{pathPath}/HESEL_logs"
 
 # (HESEL) Source files
-sourcePath = pathPath
+sourcePath = f"{os.environ['HOME']}"
 
 # Scripts path
 scriptPath = f"{pathPath}/scripts"
