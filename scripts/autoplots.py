@@ -1,6 +1,9 @@
 # Module import
 import sys
+import os
 import numpy as np
+import matplotlib
+matplotlib.use("Agg") 
 import matplotlib.pyplot as plt
 
 # Import paths file
@@ -72,6 +75,11 @@ def autoplots(dataName, tindexRange = [100, -1]):
     xgrid_scrapeoff, zgrid_scrapeoff = dumpObj.get_grids(scrapeoff=True)
     x_wallRel_scrapeoff, x_wallPos_scrapeoff = dumpObj.get_wall(scrapeoff=True)
 
+    fig, ax = plt.subplots()
+    ax.plot(xgridLCFS[:-1], n, label="n", color="black")
+    ax.plot(xgridLCFS[:-1], n_Init, label="Initial n", linestyle="--", color="black")
+    fig.savefig(f"{paths.processedPath}/{dataName}/density_{dataName}.png")
+    
     ### Now plots
     ## [n] Density-plot
     fig, ax = plt.subplots()
@@ -85,9 +93,9 @@ def autoplots(dataName, tindexRange = [100, -1]):
     plt.title(f"Space- and Time-averaged Plasma Density\nData: {dataName}")
     plt.grid()
     plt.legend()
-    plt.savefig(f"{paths.processedPath}/{dataName}/density_{dataName}")
+    plt.savefig(f"{paths.processedPath}/{dataName}/density_{dataName}.png")
     plt.close()
-    
+
     ## [phi] Potential-plot
     fig, ax = plt.subplots()
     plt.plot(xgridLCFS[:-1], phi, label="phi", color="black")

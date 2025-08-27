@@ -1,6 +1,9 @@
 ### Libraries imports
 import sys
+import os
 import numpy as np
+import matplotlib
+matplotlib.use("Agg") 
 import matplotlib.pyplot as plt
 
 ### Locals imports
@@ -88,10 +91,10 @@ def qPlotsBasic(dataName, includeFOL = True):
     plt.plot(xgrid, q_para_mean - 2*q_para_std, color = "b", linestyle = "--")
     if includeFOL == True:# and True == False: # Disabling this temporarily # Re-enabling this
         plt.vlines(PFOL, ymin = np.min(q_para_mean - 2*q_para_std), ymax = np.max(q_para_mean + 2*q_para_std), color = "black", linestyle = "-.", label = "Power Fall-off Length")
-        plt.title(f"q$_{||}$ & Power Fall-off Length\nNout > {minIndex}\nData: {dataName}")
+        plt.title(f"q$_{'||'}$ & Power Fall-off Length\nNout > {minIndex}\nData: {dataName}")
     else:
-        plt.title(f"q$_{||}$\nNout > {minIndex}\nData: {dataName}")
-    plt.ylabel("q$_{||}$ [MW/m$^2$]", fontsize=11)
+        plt.title(f"q$_{'||'}$\nNout > {minIndex}\nData: {dataName}")
+    plt.ylabel(r"q$_{||}$ [MW/m$^2$]", fontsize=11)
     plt.xlabel("Position in SOL [cm]", fontsize=11)
     plt.grid()
     plt.legend()
