@@ -1,4 +1,4 @@
-#==============================================================================
+    #==============================================================================
 #==============================================================================
 t_end    = timestep*nout # total simulation time
 timestep = 100	         # time step length of outputted data
@@ -10,12 +10,12 @@ mxg      = 2             # guard cell number in the boundary of local CPU
 #==============================================================================
 #==============================================================================
 [mesh]
-nx = 512 + 2*mxg         # internal grid points plus guard cells along x-axis
+nx = <NX> + 2*mxg         # internal grid points plus guard cells along x-axis
 ny = 1                   # y is along magnetic field, set to 1
-nz = 512                 # internal grid points along z-axis
+nz = <NZ>                 # internal grid points along z-axis
 
-Lx = 338.9620921028      # simulation length along x-axis
-Lz = Lx                  # simulation length along z-axis
+Lx = <LX>      # simulation length along x-axis
+Lz = <LZ>                  # simulation length along z-axis
 
 dx = Lx/(nx-1-2*mxg)     # grid spacing along x-axis
 dy = 1.0                 # grid spacing along y-axis
@@ -64,30 +64,30 @@ rtol     = 1.0e-5       # relative tolerance
 interchange_dynamics        = true      # switch for interchange dynamics, left hand side parts of HESEL equations
 parallel_dynamics           = true      # switch for parallel dynamics
 perpendicular_dynamics      = true      # switch for perpendicular dynamics
-plasma_neutral_interactions = 0         # switch for plasma neutral interactions
+plasma_neutral_interactions = <NEUTRAL_INTERACTIONS>         # switch for plasma neutral interactions # default is 0
 force_profiles              = true      # switch for forcing profiles
 static_plasma               = 0         # bitwise switch for making plasma static, (n, pe, pi, vort, te, ti) <-> (1, 2, 4, 8, 16, 32)
 
-Z_eff  = 1.8
+Z_eff  = <Z_EFF>
 
-Bt     = 2.28#2.25 		                # toroidal magnetic field at magnetic axis
-q      = 4.8                            # safety factor (95%)
-Te0    = 78.647978243367		# reference electron temperature
-Ti0    = Te0              # Reference ion temperature
-n0     = 3.4388468861288886e+19		# reference electron density
-lconn  = 40.0 				# connection length
+Bt     = <BT> 		                # toroidal magnetic field at magnetic axis
+q      = <Q>                            # safety factor (95%)
+Te0    = <TE0>		# reference electron temperature
+Ti0    = <TI0>              # Reference ion temperature
+n0     = <N0>e+19		# reference electron density
+lconn  = <LCONN> 				# connection length
 lblob  = -1                            	# ballooning length, -1 use inner definition: lblob = q*R
-Rminor = 1.0                          	# minor radius
-Rmajor = 3.4                          	# major radius
-A      = 2                              # ion mass number. m_i = A*m_p
-Z      = 1                              # ion charge
+Rminor = <RMINOR>                          	# minor radius
+Rmajor = <RMAJOR>                          	# major radius
+A      = <A>                              # ion mass number. m_i = A*m_p
+Z      = <Z>                              # ion charge
 Mach   = 0.5                            # Mach number
 
 # parallel dynamics
-parallel_sheath_damping       = 3       # 0 = off, 1 = cs0+average field, 2 = average field, 3 = full field
-parallel_advection_damping    = 3       # 0 = off, 1 = cs0, 2 = avgcsHot, 3 = csHot
-parallel_conduction           = 2#1       # 0 = off, 1 = electron, 2 = electron + ion
-parallel_drift_wave           = 1       # 0 = off, 1 = Te0, 2 = avg_te, 3 = te   How taudw depends on te
+parallel_sheath_damping       = <PAR_SHEATH_DAMP>       # 0 = off, 1 = cs0+average field, 2 = average field, 3 = full field
+parallel_advection_damping    = <PAR_ADV_DAMP>       # 0 = off, 1 = cs0, 2 = avgcsHot, 3 = csHot
+parallel_conduction           = <PAR_COND>       # 0 = off, 1 = electron, 2 = electron + ion
+parallel_drift_wave           = <PAR_DW>       # 0 = off, 1 = Te0, 2 = avg_te, 3 = te   How taudw depends on te
 reciprocal_approx             = 3       # 1: constant fields, 2: avg fields, 3: no approximation
 
 # perpendicular dynamics
@@ -122,6 +122,74 @@ edge_width   = x_lcfs*mesh:Lx           # width of edge region
 sol_width    = (x_wall-x_lcfs)*mesh:Lx  # width of SOL region
 force_width  = 0.5 * edge_width         # width of force region
 xr           = mesh:xl - edge_width     # x coordinate with  LCFS is origin
+
+#==============================================================================
+#Include neutrals
+#==============================================================================
+[neutrals]
+
+atomicIonization 	= true	# H + e -> H+ + 2e
+molecularIonization = true	# H2 + e -> H2+ + 2e -> H + H+ + 2e
+chargeExchange 		= true	# H + H+ -> H+ + H
+dissociation 		= true	# H2 + e -> 2H + e
+elasticCollisions	= false
+
+neutralDynamics 	= <NEUTRAL_DYNAMICS>	# solve for neutral dynamics
+
+nColdFlux		= <NEUTRAL_FLUX>e+20  # In physical units
+
+local_diffusion 	= false
+
+T_cold 			= 0.025 	# eV
+T_warm 			= 2. 		# eV
+T_hot 			= hesel:Ti0 	# eV
+
+sigma 			= 3.53e-20 	# m^2
+m 			= 2*1.67e-27 	# kg
+e 			= 1.60e-19 	# C
+
+Dcold                   = 20.   # m^2s^-1
+Dwarm                   = 50.   # m^2s^-1
+Dhot                    = 400.  # m^2s^-1
+
+v_cold_x          = -750.  # ms^-1
+v_warm_x          = -2000. # ms^-1
+v_hot_x           = -2800. # ms^-1
+
+inputBCs 		= false
+wallAbsorbtionFraction  = 0.2
+
+floor_neutral_profiles  = true
+floor_neutral_density   = 1e-9
+neutral_floor_time      = 50
+
+
+[init_neutrals]
+Ncold_INIT		= 1e-3*exp(x-1)
+Nwarm_INIT		= 1e-6
+Nhot_INIT		= 1e-6
+
+# Neutral profiles
+[lnNcold]
+scale 		= 1.0
+function	= log(init_neutrals:Ncold_INIT)
+
+bndry_xin 	= neumann_o2(0.)
+bndry_xout 	= dirichlet_o2(log(1.))
+
+[lnNwarm]
+scale 		= 1.0
+function	= log(init_neutrals:Nwarm_INIT)
+
+bndry_xin 	= neumann_o2(0.)
+bndry_xout	= neumann_o2(0.)
+
+[lnNhot]
+scale 		= 1.0-
+function	= log(init_neutrals:Nhot_INIT)
+
+bndry_xin 	= neumann_o2(0.)
+bndry_xout	= neumann_o2(0.)
 
 #==============================================================================
 #==============================================================================
@@ -201,3 +269,36 @@ bndry_xin      = neumann_o2(0.)
 bndry_xout     = dirichlet_o2(0.)
 function       = 0.
 
+#==============================================================================
+#==============================================================================
+[fast_output]
+type = monitor
+flushfrequency = 100
+
+xpos0 = 0.2
+ypos0 = 0
+zpos0 = 0.5
+
+xpos1 = 0.3
+ypos1 = 0
+zpos1 = 0.5
+
+xpos2 = 0.4
+ypos2 = 0
+zpos2 = 0.5
+
+xpos3 = 0.5
+ypos3 = 0
+zpos3 = 0.5
+
+xpos4 = 0.6
+ypos4 = 0
+zpos4 = 0.5
+
+xpos5 = 0.7
+ypos5 = 0
+zpos5 = 0.5
+
+xpos6 = 0.8
+ypos6 = 0
+zpos6 = 0.5

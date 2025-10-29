@@ -43,7 +43,34 @@ class inputHandler:
         self.templateString = Path(f"{paths.templatePath}/TEMPLATE_input.inp").read_text()
 
         # Define the default parameters
-        self.defaultParameters = {"INNERTEMP" : 500, "INNERDENSITY" : 3.5, 'NOUT' : 500, 'SEED' : None} # Remember to put everything in upper case
+        self.defaultParameters = {"INNERTEMP" : 500, 
+                                  "INNERDENSITY" : 3.5, 
+                                  "NOUT" : 500, 
+                                  "SEED" : None, 
+                                  "NX" : 512, 
+                                  "NZ" : 512, 
+                                  "LX" : 140, 
+                                  "LZ" : 140, 
+                                  "NEUTRAL_INTERACTIONS" : 0, 
+                                  "Z_EFF" : 1.5, 
+                                  "BT" : 1.11, 
+                                  "Q" : 4, 
+                                  "TE0" : 30, 
+                                  "TI0" : 30, 
+                                  "TAU" : 1, 
+                                  "N0" : 2,  #units of 1e19
+                                  "LCONN" : 30, 
+                                  "RMINOR" : 0.225, 
+                                  "RMAJOR" : 0.88, 
+                                  "A" : 2, 
+                                  "Z" : 1, 
+                                  "PAR_SHEATH_DAMP" : 3, 
+                                  "PAR_ADV_DAMP" : 3, 
+                                  "PAR_COND" : 2, 
+                                  "PAR_DW" : 1, 
+                                  "NEUTRAL_DYNAMICS" : 0, 
+                                  "NEUTRAL_FLUX" : -10, # units of 1e19
+                                  } # Remember to put everything in upper case
 
     def create_inp(self, name, parameters = None, overwrite = True):
         """
